@@ -92,7 +92,10 @@
   .br.brr { bottom: -5px; right: -5px; border-left: 0; border-top: 0; border-bottom-right-radius: 3px; }
   .caret { display: inline-block; width: 6px; height: 11px; background: var(--ink); vertical-align: -1px; margin-left: 2px; animation: blink 1s steps(1) infinite; }
   @keyframes blink { 50% { opacity: 0; } }
-  .prompt .next { margin-top: 10px; font: 400 11px/1.45 var(--mono); text-transform: uppercase; letter-spacing: .04em; color: rgba(var(--ink-rgb), .28); }
+  .prompt .next { position: relative; margin-top: 14px; padding-left: 14px; border-left: 1px solid #4c8dff; min-height: 60px; font-size: 14px; line-height: 1.5;
+    color: rgba(var(--ink-rgb), .72); opacity: 0; transform: translateY(6px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+  .prompt .next::before { content: "What Orion does"; display: block; margin-bottom: 4px; font: 500 10px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: #6fa8ff; }
+  .prompt .next.on { opacity: 1; transform: none; }
   .rule { position: absolute; height: 1px; background: var(--grid); }
   .rule.top { left: calc(var(--col) + 24.4%); right: var(--col); top: 30%; }
   .feats { position: absolute; right: var(--col); top: calc(30% + 18px); width: 23%; font: 400 11px var(--mono); text-transform: uppercase; letter-spacing: .05em; }
@@ -287,12 +290,18 @@
 
   // ---------- typing prompt ----------
   (() => {
+    // what you say -> what Orion actually does with it
     const prompts = [
-      'Call me at 7:30 tomorrow with my morning briefing.',
-      'How much did I spend on food this week?',
-      'Move my DSA prep to Thursday at 6 PM.',
-      'Here is my lunch. How many calories is that?',
-      'Did my professor email about the quiz?',
+      ['Call me at 7:30 tomorrow with my morning briefing.',
+        'Books a real phone call. At 7:30 your phone rings, and Orion walks you through yesterday, today\'s classes, to-dos and goals.'],
+      ['How much did I spend on food this week?',
+        'Adds up the payments it logged from your bank emails, split into needs and wants, and tells you the total.'],
+      ['Move my DSA prep to Thursday at 6 PM.',
+        'Finds the event in Google Calendar, asks you to confirm, then moves it and shows the change in your calendar app.'],
+      ['Here is my lunch. How many calories is that?',
+        'Looks at the photo, names each dish using the mess menu, and estimates calories and protein against your daily target.'],
+      ['Did my professor email about the quiz?',
+        'Searches your college inbox (read-only) and sums up anything about the quiz: the date, the syllabus, where.'],
     ];
     const typed = document.getElementById('typed');
     const next = document.getElementById('nextPrompt');
@@ -301,11 +310,14 @@
     const wait = (ms) => new Promise((r) => setTimeout(r, ms));
     async function loop() {
       for (;;) {
-        const p = prompts[i % prompts.length];
-        next.textContent = prompts[(i + 1) % prompts.length];
-        if (still) { typed.textContent = p; await wait(4000); i++; continue; }
+        const [p, what] = prompts[i % prompts.length];
+        next.classList.remove('on');
+        if (still) { typed.textContent = p; next.textContent = what; next.classList.add('on'); await wait(5000); i++; continue; }
         for (let c = 1; c <= p.length; c++) { typed.textContent = p.slice(0, c); await wait(38); }
-        await wait(2600);
+        next.textContent = what;
+        next.classList.add('on');
+        await wait(3800); // a little longer than before, so there's time to read the explanation
+        next.classList.remove('on');
         for (let c = p.length; c >= 0; c -= 2) { typed.textContent = p.slice(0, c); await wait(14); }
         await wait(250);
         i++;
