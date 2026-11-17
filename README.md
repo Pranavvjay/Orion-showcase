@@ -1,10 +1,10 @@
-# Jarvis: personal AI assistant (showcase)
+# Orion: personal AI assistant (showcase)
 
 A voice-first, agentic personal assistant for Android and the web that I built for my own
 college life. It runs my calendar, calls me every morning with a briefing, tracks goals,
 money and food, sorts my college email, and rings my phone when something urgent comes in.
 
-**Site:** https://pranavvjay.github.io/jarvis-showcase/ · **Privacy policy:** [privacy.html](privacy.html)
+**Site:** https://pranavvjay.github.io/orion-showcase/ · **Privacy policy:** [privacy.html](privacy.html)
 
 The source code is private; this repo only holds the showcase page and privacy policy.
 
