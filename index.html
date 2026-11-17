@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jarvis · Personal AI Assistant</title>
+<meta name="description" content="Jarvis: a voice-first, agentic personal assistant for Android and the web, built by Pranav.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0E13; --panel: #0F151C; --line: #1C2733; --text: #E6EDF3; --muted: #8B9AAB;
+    --cyan: #38D3F5; --cyan-dim: rgba(56, 211, 245, .12); --amber: #F5B83D; --green: #3DDC97;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 Inter, system-ui, sans-serif; }
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; color: var(--cyan); }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; }
+  nav .links a { color: var(--muted); margin-left: 22px; font-size: 14px; }
+  /* hero */
+  .hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; padding: 48px 0 72px; }
+  h1 { font-size: clamp(40px, 7vw, 68px); line-height: 1.02; margin: 14px 0 18px; letter-spacing: -.02em; }
+  h1 span { color: var(--cyan); }
+  .lede { color: var(--muted); font-size: 18px; max-width: 520px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; font-size: 13px; color: var(--muted); }
+  .orb { width: 100%; max-width: 360px; justify-self: center; }
+  .orb .spin { transform-origin: 160px 160px; animation: spin 18s linear infinite; }
+  .orb .spin2 { transform-origin: 160px 160px; animation: spin 30s linear infinite reverse; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .orb .spin, .orb .spin2 { animation: none; } }
+  /* sections */
+  section { padding: 64px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 30px; margin: 10px 0 8px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 32px; max-width: 640px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .card h3 { margin: 0 0 6px; font-size: 16px; }
+  .card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .card .ico { font-size: 20px; margin-bottom: 10px; display: block; }
+  .agents { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 28px; }
+  .agent { display: flex; gap: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  .agent b { display: block; margin-bottom: 2px; }
+  .agent p { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .tag { flex: none; width: 10px; border-radius: 6px; background: var(--cyan); }
+  .tag.bg { background: var(--amber); }
+  .diagram { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; overflow-x: auto; }
+  .diagram svg { display: block; width: 100%; min-width: 720px; height: auto; }
+  .stack { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .stack ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 14.5px; }
+  .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .shot { aspect-ratio: 9 / 19; border: 1px dashed var(--line); border-radius: 22px; display: grid; place-items: center; color: var(--muted); font-size: 13px; background: var(--panel); }
+  footer { border-top: 1px solid var(--line); padding: 28px 0 48px; color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  @media (max-width: 820px) {
+    .hero { grid-template-columns: 1fr; padding-top: 16px; }
+    .orb { max-width: 240px; grid-row: 1; }
+    .grid, .stack { grid-template-columns: 1fr 1fr; }
+    .agents { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 540px) {
+    .grid, .stack, .shots { grid-template-columns: 1fr; }
+    nav .links a { margin-left: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="mono">Jarvis</span>
+    <span class="links"><a href="#features">Features</a><a href="#agents">Agents</a><a href="#stack">Stack</a><a href="privacy.html">Privacy</a></span>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <span class="mono">Personal AI assistant · agentic</span>
+      <h1>Talk to it.<br>It <span>gets things done.</span></h1>
+      <p class="lede">Jarvis is a voice-first assistant I built for my own college life. It runs my calendar, calls me in the morning with a briefing, tracks my goals, money and food, sorts my college email, and rings my phone when something urgent comes in.</p>
+      <div class="chips">
+        <span class="chip">Android + Web</span><span class="chip">Voice conversations</span>
+        <span class="chip">Team of AI agents</span><span class="chip">Runs on free tiers</span>
+      </div>
+    </div>
+    <svg class="orb" viewBox="0 0 320 320" aria-hidden="true">
+      <defs>
+        <radialGradient id="g" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#38D3F5" stop-opacity=".35"/><stop offset="100%" stop-color="#38D3F5" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="160" cy="160" r="150" fill="url(#g)"/>
+      <g class="spin" fill="none" stroke="#38D3F5" stroke-width="3">
+        <circle cx="160" cy="160" r="128" stroke-dasharray="120 40 60 30" opacity=".85"/>
+      </g>
+      <g class="spin2" fill="none" stroke="#38D3F5" stroke-width="2">
+        <circle cx="160" cy="160" r="104" stroke-dasharray="6 10" opacity=".6"/>
+      </g>
+      <circle cx="160" cy="160" r="78" fill="#0F151C" stroke="#1C2733" stroke-width="2"/>
+      <text x="160" y="171" text-anchor="middle" fill="#E6EDF3" font-family="JetBrains Mono, monospace" font-size="30" font-weight="500">J</text>
+    </svg>
+  </header>
+
+  <section id="features">
+    <span class="mono">What it does</span>
+    <h2>One assistant for the whole day</h2>
+    <p class="sub">Everything works by voice: ask, and Jarvis uses its tools and shows what it's doing on screen as it talks.</p>
+    <div class="grid">
+      <div class="card"><span class="ico">☀️</span><h3>Morning briefing call</h3><p>Rings at 7:30 like a phone call: what I covered yesterday, today's classes, to-dos, goals and files to go through.</p></div>
+      <div class="card"><span class="ico">📅</span><h3>Calendar & to-dos</h3><p>Google Calendar and Tasks by voice. Changes appear live in the real calendar app, with Jarvis floating on top.</p></div>
+      <div class="card"><span class="ico">☎️</span><h3>It calls you</h3><p>"Call me at 4 about the lab report." A real ringing call screen; works even with the app closed.</p></div>
+      <div class="card"><span class="ico">🔥</span><h3>Goals & streaks</h3><p>Habits with weekly targets, check-ins and streaks, plus an evening recap call about the day.</p></div>
+      <div class="card"><span class="ico">₹</span><h3>Money</h3><p>Payments are logged from bank emails, sorted into needs and wants. A notification after each one asks what it was for.</p></div>
+      <div class="card"><span class="ico">🍛</span><h3>Food & calories</h3><p>Snap your plate: it names the dishes (using the mess menu) and estimates calories and protein.</p></div>
+      <div class="card"><span class="ico">✉️</span><h3>College mail</h3><p>Sorts the college inbox into deadlines, class changes, events and exams, and rings for anything urgent.</p></div>
+      <div class="card"><span class="ico">📑</span><h3>Slides walkthrough</h3><p>Upload lecture slides or PDFs and Jarvis explains them slide by slide, out loud.</p></div>
+      <div class="card"><span class="ico">🧠</span><h3>Memory</h3><p>Remembers lasting facts (routines, people, preferences) and uses them across phone and laptop.</p></div>
+    </div>
+  </section>
+
+  <section id="agents">
+    <span class="mono">Agentic AI</span>
+    <h2>A team of agents, not one big prompt</h2>
+    <p class="sub">A small router decides which skills each message needs, so the main agent only sees the right tools. Background agents work on their own schedule and can reach the phone through push.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 960 360" role="img" aria-label="Diagram: phone and laptop talk to the router agent, which hands the message to the main Jarvis agent with only the tools it needs; background agents work on a schedule and push to the phone.">
+        <defs>
+          <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8B9AAB"/></marker>
+        </defs>
+        <g font-family="Inter, sans-serif" font-size="14" fill="#E6EDF3">
+          <rect x="20" y="60" width="150" height="56" rx="12" fill="#0A0E13" stroke="#1C2733"/><text x="95" y="93" text-anchor="middle">📱 Phone app</text>
+          <rect x="20" y="140" width="150" height="56" rx="12" fill="#0A0E13" stroke="#1C2733"/><text x="95" y="173" text-anchor="middle">💻 Laptop web</text>
+          <rect x="230" y="100" width="150" height="56" rx="12" fill="#0A0E13" stroke="#38D3F5"/><text x="305" y="125" text-anchor="middle">Router agent</text><text x="305" y="144" text-anchor="middle" fill="#8B9AAB" font-size="12">picks skill areas</text>
+          <rect x="440" y="88" width="190" height="80" rx="14" fill="rgba(56,211,245,.12)" stroke="#38D3F5"/><text x="535" y="122" text-anchor="middle" font-weight="600">Jarvis agent</text><text x="535" y="143" text-anchor="middle" fill="#8B9AAB" font-size="12">LangGraph · tool use</text>
+          <rect x="690" y="40" width="250" height="176" rx="14" fill="#0A0E13" stroke="#1C2733"/>
+          <text x="815" y="66" text-anchor="middle" fill="#8B9AAB" font-size="12">TOOLS (only the ones needed)</text>
+          <text x="712" y="96">Calendar · To-dos</text><text x="712" y="122">Calls · Alarms · Timers</text><text x="712" y="148">Goals · Journal · Files</text><text x="712" y="174">Money · Food · Mail</text><text x="712" y="200">Memory</text>
+          <path d="M170 88 L228 120" stroke="#8B9AAB" fill="none" marker-end="url(#a)"/><path d="M170 168 L228 138" stroke="#8B9AAB" fill="none" marker-end="url(#a)"/>
+          <path d="M380 128 L438 128" stroke="#8B9AAB" fill="none" marker-end="url(#a)"/><path d="M630 128 L688 128" stroke="#8B9AAB" fill="none" marker-end="url(#a)"/>
+          <text x="20" y="262" fill="#F5B83D" font-size="12" font-family="JetBrains Mono, monospace">BACKGROUND AGENTS</text>
+          <g font-size="13">
+            <rect x="20" y="276" width="140" height="44" rx="10" fill="#0A0E13" stroke="#F5B83D"/><text x="90" y="303" text-anchor="middle">Briefing</text>
+            <rect x="175" y="276" width="140" height="44" rx="10" fill="#0A0E13" stroke="#F5B83D"/><text x="245" y="303" text-anchor="middle">Mail</text>
+            <rect x="330" y="276" width="140" height="44" rx="10" fill="#0A0E13" stroke="#F5B83D"/><text x="400" y="303" text-anchor="middle">Finance</text>
+            <rect x="485" y="276" width="140" height="44" rx="10" fill="#0A0E13" stroke="#F5B83D"/><text x="555" y="303" text-anchor="middle">Food (vision)</text>
+            <rect x="640" y="276" width="140" height="44" rx="10" fill="#0A0E13" stroke="#F5B83D"/><text x="710" y="303" text-anchor="middle">Slides</text>
+            <rect x="795" y="276" width="145" height="44" rx="10" fill="#0A0E13" stroke="#F5B83D"/><text x="867" y="303" text-anchor="middle">Memory</text>
+          </g>
+          <path d="M95 274 L95 200" stroke="#F5B83D" stroke-dasharray="4 4" fill="none" marker-end="url(#a)"/>
+          <text x="104" y="240" fill="#8B9AAB" font-size="12">push: ring / notify / sync</text>
+        </g>
+      </svg>
+    </div>
+    <div class="agents">
+      <div class="agent"><span class="tag"></span><div><b>Router</b><p>A fast small model reads each message and picks the skill areas it needs, cutting each step from ~3.8K to ~1–2K tokens.</p></div></div>
+      <div class="agent"><span class="tag"></span><div><b>Jarvis (main agent)</b><p>Plans and calls tools in a loop, can unlock more tools itself, and needs your explicit yes before changing the calendar.</p></div></div>
+      <div class="agent"><span class="tag bg"></span><div><b>Briefing agent</b><p>Prepares the morning call ten minutes early from yesterday's journal, goals, spending and today's schedule.</p></div></div>
+      <div class="agent"><span class="tag bg"></span><div><b>Mail agent</b><p>Sorts new college email every 15 minutes and calls about urgent things (polite hours only).</p></div></div>
+      <div class="agent"><span class="tag bg"></span><div><b>Finance agent</b><p>Turns payment emails into a spending log, sorts need vs want, and notifies after each payment.</p></div></div>
+      <div class="agent"><span class="tag bg"></span><div><b>Food agent</b><p>A vision model reads meal photos and mess-menu screenshots, estimating calories and protein.</p></div></div>
+    </div>
+  </section>
+
+  <section id="screens">
+    <span class="mono">Screens</span>
+    <h2>On the phone</h2>
+    <p class="sub">Screenshots coming soon.</p>
+    <div class="shots"><div class="shot">Orb & voice</div><div class="shot">Calendar float</div><div class="shot">Food & money</div></div>
+  </section>
+
+  <section id="stack">
+    <span class="mono">Under the hood</span>
+    <h2>Tech stack</h2>
+    <p class="sub">Built to cost nothing to run: free AI tiers, open-source voices and the laptop as the server.</p>
+    <div class="stack">
+      <div class="card"><h3>Backend</h3><ul><li>Python · FastAPI</li><li>LangGraph agents</li><li>Groq (gpt-oss, Qwen vision, Whisper)</li><li>SQLite · local embeddings</li></ul></div>
+      <div class="card"><h3>App</h3><ul><li>Expo / React Native (Android + web)</li><li>Custom Kotlin module: calls, picture-in-picture, Clock app</li><li>Push via Expo + Firebase</li></ul></div>
+      <div class="card"><h3>Integrations</h3><ul><li>Google Calendar, Tasks, Gmail</li><li>ElevenLabs + Microsoft neural voices</li><li>Tailscale (phone ↔ laptop anywhere)</li></ul></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Built by <a href="https://github.com/Pranavvjay">Pranav</a>. A personal project; the code is private.</span>
+    <a href="privacy.html">Privacy policy</a>
+  </footer>
+</div>
+</body>
+</html>
