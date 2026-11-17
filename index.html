@@ -10,10 +10,12 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Schibsted+Grotesk:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #efece6;
-    --ink: #141414;
-    --dim: rgba(20, 20, 20, .5);
-    --grid: rgba(20, 20, 20, .09);
+    --bg: #0a0a0b;
+    --ink: #f0ede6;
+    --bg-rgb: 10, 10, 11;
+    --ink-rgb: 240, 237, 230;
+    --dim: rgba(var(--ink-rgb), .5);
+    --grid: rgba(var(--ink-rgb), .1);
     --col: 17%;
     --grad: conic-gradient(from 200deg, #8ae6ff, #38d3f5 18%, #4c8dff 34%, #7b61ff 50%, #4c8dff 66%, #38d3f5 82%, #8ae6ff);
     --grad-line: linear-gradient(90deg, #38d3f5, #4c8dff 55%, #7b61ff);
@@ -42,28 +44,31 @@
   .topbar button { position: absolute; right: 14px; background: none; border: 0; color: inherit; font: inherit; font-size: 14px; cursor: pointer; }
   body.scrolled .topbar, body.bar-off .topbar { transform: translateY(-100%); }
 
-  nav { position: fixed; left: 0; right: 0; top: 30px; height: 52px; z-index: 25; display: grid; grid-template-columns: var(--col) 1fr 12% var(--col);
-    background: rgba(239, 236, 230, .86); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--grid);
+  nav { position: fixed; left: 0; right: 0; top: 30px; height: 64px; z-index: 25; display: grid; grid-template-columns: var(--col) 1fr 12% var(--col);
+    background: rgba(var(--bg-rgb), .86); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--grid);
     transition: top .5s cubic-bezier(.6, 0, .2, 1); }
   body.scrolled nav, body.bar-off nav { top: 0; }
   nav > * { display: flex; align-items: center; }
-  .logo { gap: 10px; padding-left: 20px; font-size: 18px; letter-spacing: .02em; }
-  .logo svg { width: 27px; height: 27px; flex: none; }
-  .menu { gap: 26px; padding-left: 28px; font: 400 11px var(--mono); text-transform: uppercase; letter-spacing: .05em; }
-  .menu a:hover, .pad:hover { opacity: .6; }
-  .pad { justify-content: center; border-left: 1px solid var(--grid); border-right: 1px solid var(--grid); font: 400 11px var(--mono); text-transform: uppercase; letter-spacing: .05em; }
+  .logo { gap: 12px; padding-left: 22px; font-size: 22px; letter-spacing: .02em; }
+  .logo svg { width: 32px; height: 32px; flex: none; }
+  /* each menu item is its own cell, divided by hairlines */
+  .menu { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; align-items: stretch; border-left: 1px solid var(--grid); }
+  .menu a { display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--grid); font: 500 14px var(--mono); text-transform: uppercase;
+    letter-spacing: .06em; transition: background .2s, color .2s; }
+  .menu a:hover, .pad:hover { background: rgba(var(--ink-rgb), .06); }
+  .pad { justify-content: center; border-right: 1px solid var(--grid); font: 500 14px var(--mono); text-transform: uppercase; letter-spacing: .06em; transition: background .2s; }
   .cta-cell { justify-content: center; }
-  .cta { position: relative; height: 30px; padding: 0 14px; display: inline-flex; align-items: center; gap: 8px; font: 500 11px var(--mono); text-transform: uppercase;
-    letter-spacing: .06em; border: 1px solid rgba(20, 20, 20, .25); }
+  .cta { position: relative; height: 40px; padding: 0 18px; display: inline-flex; align-items: center; gap: 10px; font: 500 14px var(--mono); text-transform: uppercase;
+    letter-spacing: .06em; border: 1px solid rgba(var(--ink-rgb), .25); }
   .cta::before { content: ""; position: absolute; inset: -1px; padding: 1px; background: var(--grad-line);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
     clip-path: polygon(0 0, 62% 0, 62% 2px, 2px 2px, 2px 100%, 0 100%); }
   .cta .dots { letter-spacing: -.1em; color: #4c8dff; }
-  .cta:hover { background: rgba(20, 20, 20, .04); }
+  .cta:hover { background: rgba(var(--ink-rgb), .04); }
 
   .rail { position: fixed; right: 26px; top: 50%; transform: translateY(-50%); height: 270px; z-index: 20; width: 110px; }
   .rail .dotcol { position: absolute; right: 0; top: 0; bottom: 30px; display: flex; flex-direction: column; justify-content: space-between; }
-  .rail .dotcol i { width: 3px; height: 3px; border-radius: 50%; background: rgba(20, 20, 20, .3); }
+  .rail .dotcol i { width: 3px; height: 3px; border-radius: 50%; background: rgba(var(--ink-rgb), .3); }
   .rail .label { position: absolute; right: 14px; top: 0; display: flex; align-items: center; gap: 6px; font: 400 10px var(--mono); letter-spacing: .06em;
     transition: top .7s var(--ease); white-space: nowrap; }
   .rail .label svg { width: 12px; height: 12px; }
@@ -79,7 +84,7 @@
   /* intro */
   .prompt { position: absolute; left: var(--col); top: 30%; width: 24.4%; margin-left: 1px; }
   .prompt .tab { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--ink); border-bottom: 0; font: 700 26px Georgia, serif; line-height: 1; padding-top: 10px; }
-  .prompt .box { position: relative; border: 1px solid var(--ink); padding: 14px 16px; min-height: 76px; font: 400 11px/1.45 var(--mono); text-transform: uppercase; letter-spacing: .04em; background: rgba(239, 236, 230, .5); }
+  .prompt .box { position: relative; border: 1px solid var(--ink); padding: 14px 16px; min-height: 76px; font: 400 11px/1.45 var(--mono); text-transform: uppercase; letter-spacing: .04em; background: rgba(var(--bg-rgb), .5); }
   .prompt .box .br { position: absolute; width: 7px; height: 7px; border: 1px solid var(--ink); }
   .br.tl { top: -5px; left: -5px; border-right: 0; border-bottom: 0; border-top-left-radius: 3px; }
   .br.tr { top: -5px; right: -5px; border-left: 0; border-bottom: 0; border-top-right-radius: 3px; }
@@ -87,7 +92,7 @@
   .br.brr { bottom: -5px; right: -5px; border-left: 0; border-top: 0; border-bottom-right-radius: 3px; }
   .caret { display: inline-block; width: 6px; height: 11px; background: var(--ink); vertical-align: -1px; margin-left: 2px; animation: blink 1s steps(1) infinite; }
   @keyframes blink { 50% { opacity: 0; } }
-  .prompt .next { margin-top: 10px; font: 400 11px/1.45 var(--mono); text-transform: uppercase; letter-spacing: .04em; color: rgba(20, 20, 20, .28); }
+  .prompt .next { margin-top: 10px; font: 400 11px/1.45 var(--mono); text-transform: uppercase; letter-spacing: .04em; color: rgba(var(--ink-rgb), .28); }
   .rule { position: absolute; height: 1px; background: var(--grid); }
   .rule.top { left: calc(var(--col) + 24.4%); right: var(--col); top: 30%; }
   .feats { position: absolute; right: var(--col); top: calc(30% + 18px); width: 23%; font: 400 11px var(--mono); text-transform: uppercase; letter-spacing: .05em; }
@@ -113,7 +118,7 @@
   /* features (tab carousel) */
   .strip { position: absolute; left: var(--col); right: 0; top: 16%; height: 74px; overflow: hidden; }
   .track { display: flex; height: 100%; transition: transform .9s cubic-bezier(.65, 0, .2, 1); }
-  .tabx { position: relative; flex: none; width: 33vw; height: 100%; display: flex; align-items: stretch; color: rgba(20, 20, 20, .14); transition: color .6s, opacity .6s; }
+  .tabx { position: relative; flex: none; width: 33vw; height: 100%; display: flex; align-items: stretch; color: rgba(var(--ink-rgb), .14); transition: color .6s, opacity .6s; }
   .tabx .num { width: 68px; display: grid; place-items: center; font: 400 12px var(--mono); border-right: 1px solid currentColor; }
   .tabx .lab { display: flex; align-items: center; padding: 0 22px; font-size: clamp(16px, 1.5vw, 24px); }
   .tabx.on { color: var(--ink); outline: 1px solid var(--ink); outline-offset: -1px; }
@@ -128,7 +133,7 @@
   .ahead { position: absolute; left: var(--col); right: var(--col); top: 13%; height: 60px; display: flex; align-items: center; gap: 18px; border-bottom: 1px solid var(--grid); font: 400 11px var(--mono); text-transform: uppercase; letter-spacing: .05em; }
   .ahead .idx { display: inline-flex; gap: 8px; align-items: center; }
   .ahead .idx span { border: 1px solid var(--ink); padding: 2px 6px; }
-  .ahead .av { width: 56px; height: 56px; border: 1px solid var(--ink); display: grid; place-items: center; background: #141414; }
+  .ahead .av { width: 56px; height: 56px; border: 1px solid var(--ink); display: grid; place-items: center; background: #000; }
   .ahead .av svg { width: 34px; height: 34px; }
   .ahead .who { font-family: var(--sans); text-transform: none; font-size: 17px; letter-spacing: 0; }
   .ahead .role { color: var(--dim); }
@@ -139,7 +144,7 @@
   .arrows { position: absolute; left: calc(var(--col) + 1px); bottom: 10%; display: flex; gap: 10px; }
   .arrows button { width: 44px; height: 44px; border: 1px solid var(--ink); background: transparent; font-size: 18px; cursor: pointer; color: var(--ink); }
   .arrows button:hover { background: var(--ink); color: var(--bg); }
-  .ghost { position: absolute; left: calc(100% - var(--col) + 24px); top: 26%; font-size: clamp(16px, 1.5vw, 24px); line-height: 1.2; white-space: nowrap; color: rgba(20, 20, 20, .12); }
+  .ghost { position: absolute; left: calc(100% - var(--col) + 24px); top: 26%; font-size: clamp(16px, 1.5vw, 24px); line-height: 1.2; white-space: nowrap; color: rgba(var(--ink-rgb), .12); }
   .counter { position: absolute; right: var(--col); bottom: 10%; font: 400 11px var(--mono); letter-spacing: .05em; color: var(--dim); }
 
   footer { position: relative; z-index: 5; height: 30vh; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; border-top: 1px solid var(--grid); background: var(--bg); text-align: center; padding: 0 16px; }
@@ -157,7 +162,7 @@
     .hero-text, .gateway, .quote, .trylink, .arrows { left: 16px; }
     .scroll { right: 16px; }
     .sub { left: 16px; right: 16px; bottom: 3%; max-width: none; }
-    .hero-text .pre, .gbox, .sub, .gateway > div, .quote, .trylink, .prompt .next { background: rgba(239, 236, 230, .88); }
+    .hero-text .pre, .gbox, .sub, .gateway > div, .quote, .trylink, .prompt .next { background: rgba(var(--bg-rgb), .88); }
     .hero-text { bottom: 13%; }
     .strip { left: 0; }
     .tabx { width: 78vw; }
@@ -187,7 +192,7 @@
     <svg viewBox="0 0 28 28" aria-hidden="true">
       <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38d3f5"/><stop offset=".55" stop-color="#4c8dff"/><stop offset="1" stop-color="#7b61ff"/></linearGradient></defs>
       <path d="M23 6.5 A11 11 0 0 0 5 5 Q2 7 2 12 V16 Q2 26 12 26 H16 Q22 26 24 22" fill="none" stroke="url(#lg)" stroke-width="2.2" stroke-linecap="round"/>
-      <circle cx="10" cy="17" r="1.6" fill="#141414"/><circle cx="14" cy="14.5" r="1.6" fill="#141414"/><circle cx="18" cy="12" r="1.6" fill="#141414"/>
+      <circle cx="10" cy="17" r="1.6" fill="currentColor"/><circle cx="14" cy="14.5" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/>
     </svg>
     ORION
   </a>
@@ -198,7 +203,7 @@
 
 <div class="rail" aria-hidden="true">
   <div class="dotcol"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="label" id="railLabel"><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="none" stroke="#141414"/><path d="M6 6 L6 2" stroke="#141414"/></svg><span>INTRO</span></div>
+  <div class="label" id="railLabel"><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor"/><path d="M6 6 L6 2" stroke="currentColor"/></svg><span>INTRO</span></div>
   <div class="more">≡ MENU</div>
 </div>
 
@@ -219,7 +224,7 @@
       <div class="gbox two rv d4" role="presentation">Handled</div>
     </div>
     <p class="sub rv d4">It talks, plans and remembers. Orion runs my calendar, calls me every morning, and keeps track of goals, money and food.</p>
-    <a class="scroll rv d4" href="#features"><span class="br tl"></span><span class="br brr"></span>SCROLL <svg viewBox="0 0 10 12"><path d="M5 0 V10 M1 7 L5 11 L9 7" fill="none" stroke="#141414"/></svg></a>
+    <a class="scroll rv d4" href="#features"><span class="br tl"></span><span class="br brr"></span>SCROLL <svg viewBox="0 0 10 12"><path d="M5 0 V10 M1 7 L5 11 L9 7" fill="none" stroke="currentColor"/></svg></a>
     <div class="rule bottom"></div>
   </section>
 
@@ -424,7 +429,7 @@
   const shellLight = phys({ color: 0xf8f6f2, roughness: .34, clearcoat: .45, clearcoatRoughness: .3 });
   const dark = new THREE.MeshStandardMaterial({ color: 0x1b1b1f, roughness: .55, metalness: .3 });
   const deep = new THREE.MeshStandardMaterial({ color: 0x0f0f12, roughness: .6, metalness: .2 });
-  const pedestalMat = new THREE.MeshStandardMaterial({ color: 0x2a2928, roughness: .9 });
+  const pedestalMat = new THREE.MeshStandardMaterial({ color: 0x2e2d2b, roughness: .85 }); // a touch lighter so it reads on black
 
   // gradient ring texture (Orion: cyan -> blue -> violet)
   const ringCanvas = document.createElement('canvas');
