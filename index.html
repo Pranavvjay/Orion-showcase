@@ -149,7 +149,7 @@
   .ghost { position: absolute; left: calc(100% - var(--col) + 24px); top: 26%; font-size: clamp(16px, 1.5vw, 24px); line-height: 1.2; white-space: nowrap; color: rgba(var(--ink-rgb), .12); }
   .counter { position: absolute; right: var(--col); bottom: 10%; font: 400 11px var(--mono); letter-spacing: .05em; color: var(--dim); }
 
-  footer { position: relative; z-index: 5; height: 30vh; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; border-top: 1px solid var(--grid); background: var(--bg); text-align: center; padding: 0 16px; }
+  footer { position: relative; z-index: 5; height: 30vh; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; border-top: 1px solid var(--grid); background: linear-gradient(rgba(var(--bg-rgb), .55), var(--bg) 60%); text-align: center; padding: 0 16px; }
   footer .stack { font: 400 11px var(--mono); letter-spacing: .05em; color: var(--dim); text-transform: uppercase; }
   footer .links { display: flex; gap: 22px; font: 400 11px var(--mono); letter-spacing: .05em; text-transform: uppercase; }
   footer .links a:hover { opacity: .6; }
@@ -634,6 +634,10 @@
         a.fore.rotation.x = -.35 + Math.sin(t * 1.4 + a.side) * .06;
       }
     }
+    // fade the robot out as the footer scrolls in (no hard edge where the footer starts)
+    const footer = document.getElementById('stack');
+    const into = innerHeight - footer.getBoundingClientRect().top; // px of footer on screen
+    canvas.style.opacity = String(Math.max(0, Math.min(1, 1 - into / (footer.offsetHeight * .9))));
     faceTarget = p > 1.55 ? 1 : 0;
     drawFace(t, dt);
     renderer.render(scene, camera);
