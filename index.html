@@ -368,12 +368,18 @@
       ['College mail sorter', 'Deadlines, class changes, events and exams, and a call if it is urgent.'],
       ['Slides walkthrough', 'Upload lecture slides and Orion explains them out loud, slide by slide.'],
       ['Long-term memory', 'Remembers routines, people and preferences across phone and laptop.'],
+      ['Texts you first', 'A friendly check-in once a day, following up on what you told it, plus nudges when something matters.'],
+      ['Study planner', 'Give it a syllabus and a deadline; it splits the topics around your timetable and books every session.'],
+      ['Steps & runs', 'Reads your watch and Strava runs: cheers 10k days and compares each run with your last ones.'],
+      ['News & links', 'Follows stories you care about, reads any link you share, and searches the web for live answers.'],
+      ['Mail tracking', '"Track hackathons in my mail" and it pings you about every new matching email.'],
+      ['A pixel companion', 'A little robot that mirrors your day: guitar at guitar time, a bandana on runs, a book while you study.'],
       ['Morning briefing call', 'Rings at 7:30 like a real call: yesterday, today\'s classes, to-dos and goals.'],
     ];
     const track = document.getElementById('track');
     const desc = document.getElementById('tabdesc');
     track.innerHTML = tabs.map(([t], n) =>
-      `<div class="tabx"><span class="num">${String(n % 9 + 1).padStart(2, '0')}</span><span class="lab">${t}</span>` +
+      `<div class="tabx"><span class="num">${String(n % (tabs.length - 1) + 1).padStart(2, '0')}</span><span class="lab">${t}</span>` +
       `<span class="br tl"></span><span class="br tr"></span><span class="br bl"></span><span class="br brr"></span></div>`).join('');
     const els = [...track.children];
     let k = 0;
